@@ -61,7 +61,16 @@ body {
   gap: var(--s3);
 }
 
-/* ─── Game title ────────────────────────────────────────────── */
+/* ─── Game logo / title ─────────────────────────────────────── */
+#game-logo {
+  display: block;
+  margin: 0 auto;
+  width: 240px;
+  height: auto;
+  image-rendering: pixelated;
+  filter: drop-shadow(3px 3px 0 var(--shadow));
+}
+
 #game-title {
   font-family: var(--font-display);
   font-size: 20px;
