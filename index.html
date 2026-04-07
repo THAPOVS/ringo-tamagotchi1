@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐾 Ringo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>🐾 Ringo</h1>
+
+  <div id="game-card">
+
+    <!-- Alert banner -->
+    <div id="alert-banner" class="alert" role="alert"></div>
+
+    <!-- Game canvas -->
+    <div id="canvas-wrap">
+      <canvas id="game" width="160" height="144" aria-label="Ringo the dog"></canvas>
+    </div>
+
+    <!-- Mood caption -->
+    <div id="mood-caption" class="mood-caption mood-happy">Ringo is happy! 🐾</div>
+
+    <!-- Background selector -->
+    <div class="selector-section">
+      <div class="selector-label">🌍 Background</div>
+      <div class="selector-row" id="bg-selector">
+        <button class="selector-thumb active" data-bg="park"  aria-label="Park background">
+          <canvas width="32" height="26"></canvas>
+          <span class="thumb-label">🌳 Park</span>
+        </button>
+        <button class="selector-thumb" data-bg="beach" aria-label="Beach background">
+          <canvas width="32" height="26"></canvas>
+          <span class="thumb-label">🏖️ Beach</span>
+        </button>
+        <button class="selector-thumb" data-bg="home"  aria-label="Home background">
+          <canvas width="32" height="26"></canvas>
+          <span class="thumb-label">🏠 Home</span>
+        </button>
+        <button class="selector-thumb" data-bg="night" aria-label="Night background">
+          <canvas width="32" height="26"></canvas>
+          <span class="thumb-label">🌙 Night</span>
+        </button>
+        <button class="selector-thumb" data-bg="snow"  aria-label="Snow background">
+          <canvas width="32" height="26"></canvas>
+          <span class="thumb-label">❄️ Snow</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Stat bars -->
+    <div id="stats-panel">
+      <div class="stat-row">
+        <div class="stat-label">🍗 Hunger</div>
+        <div class="stat-bar-track">
+          <div class="stat-bar-fill" id="bar-hunger" style="--pct:100%"></div>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-label">😊 Happy</div>
+        <div class="stat-bar-track">
+          <div class="stat-bar-fill" id="bar-happiness" style="--pct:100%"></div>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-label">🛁 Clean</div>
+        <div class="stat-bar-track">
+          <div class="stat-bar-fill" id="bar-cleanliness" style="--pct:100%"></div>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-label">⚡ Energy</div>
+        <div class="stat-bar-track">
+          <div class="stat-bar-fill" id="bar-energy" style="--pct:100%"></div>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-label">💧 Bladder</div>
+        <div class="stat-bar-track">
+          <div class="stat-bar-fill" id="bar-bladder" style="--pct:0%"></div>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-label">💩 Bowel</div>
+        <div class="stat-bar-track">
+          <div class="stat-bar-fill" id="bar-bowel" style="--pct:0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div id="action-area">
+
+      <!-- Main actions row 1 -->
+      <div id="main-actions">
+        <button class="action-btn" data-action="pet" aria-label="Pet Ringo">
+          <span class="btn-emoji">🖐️</span>
+          <span class="btn-label">Pet</span>
+          <span class="cd-label"></span>
+        </button>
+        <button class="action-btn" data-action="feed" aria-label="Feed Ringo">
+          <span class="btn-emoji">🍗</span>
+          <span class="btn-label">Feed</span>
+          <span class="cd-label"></span>
+        </button>
+        <button class="action-btn" data-action="bath" aria-label="Bath Ringo">
+          <span class="btn-emoji">🛁</span>
+          <span class="btn-label">Bath</span>
+          <span class="cd-label"></span>
+        </button>
+        <button class="action-btn" data-action="play" aria-label="Play with Ringo">
+          <span class="btn-emoji">🎮</span>
+          <span class="btn-label">Play</span>
+          <span class="cd-label"></span>
+        </button>
+      </div>
+
+      <!-- Main actions row 2 -->
+      <div id="secondary-actions">
+        <button class="action-btn" data-action="poo" aria-label="Let Ringo poo">
+          <span class="btn-emoji">💩</span>
+          <span class="btn-label">Poo</span>
+          <span class="cd-label"></span>
+        </button>
+        <button class="action-btn" data-action="pee" aria-label="Let Ringo pee">
+          <span class="btn-emoji">💧</span>
+          <span class="btn-label">Pee</span>
+          <span class="cd-label"></span>
+        </button>
+        <button class="action-btn" data-action="praise" aria-label="Praise Ringo">
+          <span class="btn-emoji">👏</span>
+          <span class="btn-label">Praise</span>
+          <span class="cd-label"></span>
+        </button>
+        <button class="action-btn" data-action="scold" aria-label="Scold Ringo">
+          <span class="btn-emoji">😠</span>
+          <span class="btn-label">Scold</span>
+          <span class="cd-label"></span>
+        </button>
+      </div>
+
+      <!-- Row 3: Walk, Sleep/Wake, Tricks, Heal -->
+      <div id="secondary-actions" style="grid-template-columns: repeat(4, 1fr);">
+        <button class="action-btn" data-action="walk" aria-label="Walk Ringo">
+          <span class="btn-emoji">🚶</span>
+          <span class="btn-label">Walk</span>
+          <span class="cd-label"></span>
+        </button>
+        <button class="action-btn" data-action="sleep" aria-label="Put Ringo to sleep">
+          <span class="btn-emoji">😴</span>
+          <span class="btn-label">Sleep</span>
+        </button>
+        <button class="action-btn" data-action="wake" aria-label="Wake Ringo up" style="display:none">
+          <span class="btn-emoji">☀️</span>
+          <span class="btn-label">Wake</span>
+        </button>
+        <!-- Tricks submenu trigger -->
+        <div id="tricks-wrap">
+          <button class="action-btn" id="tricks-toggle" aria-label="Tricks menu" aria-haspopup="true">
+            <span class="btn-emoji">🎪</span>
+            <span class="btn-label">Tricks</span>
+          </button>
+          <div id="tricks-menu" role="menu">
+            <button class="action-btn" data-action="trick_sit" role="menuitem">
+              <span class="btn-emoji">🐕</span>
+              <span class="btn-label">Sit</span>
+              <span class="cd-label"></span>
+            </button>
+            <button class="action-btn" data-action="trick_spin" role="menuitem">
+              <span class="btn-emoji">🌀</span>
+              <span class="btn-label">Spin</span>
+              <span class="cd-label"></span>
+            </button>
+          </div>
+        </div>
+        <button class="action-btn" data-action="heal" style="display:none" aria-label="Heal Ringo">
+          <span class="btn-emoji">💊</span>
+          <span class="btn-label">Heal</span>
+          <span class="cd-label"></span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Clothing selector -->
+    <div class="selector-section">
+      <div class="selector-label">👕 Clothing</div>
+      <div class="selector-row" id="clothing-selector">
+        <button class="selector-thumb active" data-clothing="none" aria-label="No clothing">
+          <canvas width="32" height="40"></canvas>
+          <span class="thumb-label">❌ None</span>
+        </button>
+        <button class="selector-thumb" data-clothing="cowboy_hat" aria-label="Cowboy hat">
+          <canvas width="32" height="40"></canvas>
+          <span class="thumb-label">🤠 Cowboy</span>
+        </button>
+        <button class="selector-thumb" data-clothing="santa_hat" aria-label="Santa hat">
+          <canvas width="32" height="40"></canvas>
+          <span class="thumb-label">🎅 Santa</span>
+        </button>
+        <button class="selector-thumb" data-clothing="birthday_hat" aria-label="Birthday hat">
+          <canvas width="32" height="40"></canvas>
+          <span class="thumb-label">🎂 B-Day</span>
+        </button>
+        <button class="selector-thumb" data-clothing="bow_tie" aria-label="Bow tie">
+          <canvas width="32" height="40"></canvas>
+          <span class="thumb-label">🎀 Bow</span>
+        </button>
+        <button class="selector-thumb" data-clothing="collar_red" aria-label="Red collar">
+          <canvas width="32" height="40"></canvas>
+          <span class="thumb-label">🔴 Collar</span>
+        </button>
+        <button class="selector-thumb" data-clothing="sunglasses" aria-label="Sunglasses">
+          <canvas width="32" height="40"></canvas>
+          <span class="thumb-label">😎 Shades</span>
+        </button>
+        <button class="selector-thumb" data-clothing="raincoat" aria-label="Raincoat">
+          <canvas width="32" height="40"></canvas>
+          <span class="thumb-label">🌧️ Raincoat</span>
+        </button>
+        <button class="selector-thumb" data-clothing="bandana" aria-label="Bandana">
+          <canvas width="32" height="40"></canvas>
+          <span class="thumb-label">🩹 Bandana</span>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- #game-card -->
+
+  <div id="footer">Made with ❤️ for Ringo 🐾</div>
+
+  <script type="module">
+    import { initRenderer } from './renderer.js';
+    import { initGame } from './game.js';
+    import { initSelectorThumbnails } from './ui.js';
+
+    const canvas = document.getElementById('game');
+    initRenderer(canvas);
+    initSelectorThumbnails();
+    initGame();
+  </script>
+
+</body>
+</html>

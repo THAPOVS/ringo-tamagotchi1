@@ -1,0 +1,322 @@
+/* style.css — Ringo Tamagotchi */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@400;600&display=swap');
+
+/* ─── Reset & base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream:    #FFF8E7;
+  --card:     #ffffff;
+  --pink:     #ff6b9d;
+  --teal:     #4ecdc4;
+  --yellow:   #ffe066;
+  --orange:   #ff8c42;
+  --green:    #88cc66;
+  --blue:     #88ddff;
+  --brown:    #a8785a;
+  --dark:     #1a1a2e;
+  --shadow:   0 8px 32px rgba(0,0,0,0.14);
+  --radius:   16px;
+}
+
+body {
+  background: var(--cream);
+  font-family: 'Fredoka', 'Fredoka One', 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 16px 8px 32px;
+  gap: 0;
+}
+
+h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2rem;
+  color: var(--dark);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  text-shadow: 2px 2px 0 var(--pink);
+}
+
+/* ─── Game card ─────────────────────────────────────────────────────────────── */
+#game-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ─── Alert banner ──────────────────────────────────────────────────────────── */
+#alert-banner {
+  display: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.95rem;
+  text-align: center;
+  animation: alertPulse 1s infinite alternate;
+}
+#alert-banner.warning  { background: #fff3cd; color: #856404; border: 2px solid #ffe066; }
+#alert-banner.critical { background: #ffe0e0; color: #cc0000; border: 2px solid #ff4444; }
+@keyframes alertPulse {
+  from { opacity: 0.85; }
+  to   { opacity: 1;    }
+}
+
+/* ─── Canvas ────────────────────────────────────────────────────────────────── */
+#canvas-wrap {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+#game {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  width: 480px;
+  height: 432px;
+  border-radius: 12px;
+  border: 3px solid var(--dark);
+  box-shadow: 4px 4px 0 var(--dark);
+  display: block;
+}
+
+/* ─── Mood caption ──────────────────────────────────────────────────────────── */
+#mood-caption {
+  text-align: center;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.05rem;
+  padding: 4px 0;
+  transition: color 0.4s;
+}
+.mood-happy   { color: var(--pink); }
+.mood-neutral { color: #888; }
+.mood-sad     { color: #5588cc; }
+.mood-sick    { color: #cc6600; }
+
+/* ─── Background selector ───────────────────────────────────────────────────── */
+.selector-section { display: flex; flex-direction: column; gap: 6px; }
+.selector-label {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-left: 4px;
+}
+
+.selector-row {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 4px 2px 6px;
+  scrollbar-width: none;
+}
+.selector-row::-webkit-scrollbar { display: none; }
+
+.selector-thumb {
+  flex-shrink: 0;
+  width: 68px;
+  height: 54px;
+  border: 3px solid #e0e0e0;
+  border-radius: 10px;
+  background: #f5f5f5;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px;
+  transition: border-color 0.15s, transform 0.1s;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.6rem;
+  color: #555;
+  overflow: hidden;
+}
+.selector-thumb canvas {
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.selector-thumb:hover    { border-color: var(--pink); transform: scale(1.05); }
+.selector-thumb.active   { border-color: var(--orange); background: #fff8f0; }
+.selector-thumb .thumb-label {
+  font-size: 0.55rem;
+  font-family: 'Fredoka', sans-serif;
+  color: #666;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+/* ─── Stat bars ─────────────────────────────────────────────────────────────── */
+#stats-panel { display: flex; flex-direction: column; gap: 6px; }
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.stat-label {
+  width: 90px;
+  font-size: 0.82rem;
+  font-family: 'Fredoka', sans-serif;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.stat-bar-track {
+  flex: 1;
+  height: 10px;
+  background: #eee;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+.stat-bar-fill {
+  height: 100%;
+  width: var(--pct, 100%);
+  border-radius: 6px;
+  transition: width 0.4s ease, background-color 0.3s;
+}
+
+/* Stat bar colors */
+#bar-hunger      { --bar-color: var(--orange); }
+#bar-happiness   { --bar-color: var(--pink);   }
+#bar-cleanliness { --bar-color: var(--teal);   }
+#bar-energy      { --bar-color: #aadd44;       }
+#bar-bladder     { --bar-color: var(--blue);   }
+#bar-bowel       { --bar-color: var(--brown);  }
+
+.stat-bar-fill {
+  background-color: var(--bar-color, #aaa);
+}
+.stat-bar-fill.warning  { background-color: #ffaa00 !important; }
+.stat-bar-fill.critical { background-color: #ff4444 !important; animation: barPulse 0.5s infinite alternate; }
+
+@keyframes barPulse {
+  from { opacity: 0.7; }
+  to   { opacity: 1;   }
+}
+
+/* ─── Action buttons ────────────────────────────────────────────────────────── */
+#action-area { display: flex; flex-direction: column; gap: 8px; }
+
+#main-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+#secondary-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 10px 4px 8px;
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+  background: #fafafa;
+  cursor: pointer;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.72rem;
+  color: #444;
+  transition: transform 0.1s, background 0.15s, border-color 0.15s;
+  position: relative;
+  min-height: 60px;
+}
+.action-btn .btn-emoji { font-size: 1.4rem; line-height: 1; }
+.action-btn .btn-label { font-weight: 600; }
+.action-btn .cd-label {
+  display: none;
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 0.6rem;
+  color: #aaa;
+  font-family: 'Fredoka', sans-serif;
+}
+.action-btn:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.04);
+  border-color: var(--pink);
+  background: #fff8fc;
+}
+.action-btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+.action-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.action-btn.on-cooldown .btn-emoji { opacity: 0.5; }
+.action-btn.urgent {
+  border-color: #ff4444;
+  background: #fff0f0;
+  animation: urgentPulse 0.6s infinite alternate;
+}
+@keyframes urgentPulse {
+  from { box-shadow: 0 0 0 0 rgba(255,68,68,0.3); }
+  to   { box-shadow: 0 0 0 4px rgba(255,68,68,0.1); }
+}
+
+/* Tricks submenu */
+#tricks-wrap {
+  position: relative;
+}
+#tricks-menu {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 8px;
+  gap: 8px;
+  box-shadow: var(--shadow);
+  z-index: 100;
+  flex-direction: column;
+  width: 160px;
+}
+#tricks-menu.visible { display: flex; }
+#tricks-menu .action-btn { flex-direction: row; justify-content: flex-start; gap: 8px; min-height: 44px; }
+
+/* Heal button (hidden until sick) */
+[data-action="heal"] { border-color: #88cc66; background: #f0fff4; }
+
+/* ─── Footer ────────────────────────────────────────────────────────────────── */
+#footer {
+  font-size: 0.7rem;
+  color: #bbb;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 520px) {
+  #game { width: 100%; height: auto; aspect-ratio: 160/144; }
+  #main-actions, #secondary-actions { grid-template-columns: repeat(4, 1fr); }
+  .action-btn { padding: 8px 2px 6px; font-size: 0.65rem; min-height: 52px; }
+  .action-btn .btn-emoji { font-size: 1.2rem; }
+}
+@media (max-width: 380px) {
+  #main-actions, #secondary-actions { grid-template-columns: repeat(3, 1fr); }
+}
