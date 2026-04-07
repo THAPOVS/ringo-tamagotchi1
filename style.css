@@ -1,79 +1,194 @@
-/* style.css — Ringo Tamagotchi */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@400;600&display=swap');
+/* ============================================================
+   RINGO — Pixel Art Virtual Pet Game
+   Design system inspired by:
+   - Endesga-32 palette (ConcernedApe / Stardew Valley influence)
+   - Ken Sugimori silhouette-first principles (Pokémon)
+   - Toby Fox radical UI consistency (Undertale)
+   - Yoshitaka Amano thematic motifs (Final Fantasy)
+   ============================================================ */
 
-/* ─── Reset & base ─────────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap');
 
+/* ─── Design tokens ─────────────────────────────────────────── */
 :root {
-  --cream:    #FFF8E7;
-  --card:     #ffffff;
-  --pink:     #ff6b9d;
-  --teal:     #4ecdc4;
-  --yellow:   #ffe066;
-  --orange:   #ff8c42;
-  --green:    #88cc66;
-  --blue:     #88ddff;
-  --brown:    #a8785a;
-  --dark:     #1a1a2e;
-  --shadow:   0 8px 32px rgba(0,0,0,0.14);
-  --radius:   16px;
+  --bg:         #EAD4AA;   /* Warm Parchment */
+  --bg-deep:    #C8A97A;   /* Toasted Oat */
+  --panel:      #FBF5EF;   /* Soft Cream */
+  --accent1:    #F77622;   /* Sunset Amber */
+  --accent2:    #FEAE34;   /* Honey Gold */
+  --border:     #733E39;   /* Bark Brown */
+  --shadow:     #3E2731;   /* Midnight Soil */
+  --green:      #63C74D;   /* Clover Green */
+  --red:        #BE4A2F;   /* Terracotta */
+  --yellow:     #FEE761;   /* Buttercup */
+  --blue:       #41A6F6;   /* Sky Blue */
+  --cyan:       #2CE8F5;   /* Clean Cyan */
+
+  --font-pixel:   'Silkscreen', monospace;
+  --font-display: 'Press Start 2P', monospace;
+  --font-body:    'Nunito', sans-serif;
+
+  /* All spacing is multiples of 8 — Ken Sugimori grid rule */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 16px;
+  --s4: 24px;
+  --s5: 32px;
+
+  --pixel-border: 2px solid var(--shadow);
+  --pixel-shadow: 3px 3px 0 var(--shadow);
+  --pixel-shadow-lg: 4px 4px 0 var(--shadow);
 }
 
+/* ─── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+button { cursor: pointer; font-family: inherit; }
+
+/* ─── Body — textured parchment background ──────────────────── */
 body {
-  background: var(--cream);
-  font-family: 'Fredoka', 'Fredoka One', 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  /* ConcernedApe rule: texture over solid fill */
+  background-image:
+    linear-gradient(rgba(62,39,49,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62,39,49,.06) 1px, transparent 1px);
+  background-size: 8px 8px;
+  font-family: var(--font-body);
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  padding: 16px 8px 32px;
-  gap: 0;
+  padding: var(--s3) var(--s2) var(--s5);
+  gap: var(--s3);
 }
 
-h1 {
-  font-family: 'Fredoka One', cursive;
-  font-size: 2rem;
-  color: var(--dark);
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-  text-shadow: 2px 2px 0 var(--pink);
+/* ─── Game title ────────────────────────────────────────────── */
+#game-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--panel);
+  text-shadow:
+    2px  2px 0 var(--shadow),
+    -1px -1px 0 var(--border);
+  letter-spacing: 2px;
+  text-align: center;
+  padding: var(--s2) 0 var(--s1);
+  /* Paw prints as pseudo-elements */
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+#game-title::before,
+#game-title::after {
+  content: '🐾';
+  font-size: 14px;
+  filter: drop-shadow(1px 1px 0 var(--shadow));
 }
 
-/* ─── Game card ─────────────────────────────────────────────────────────────── */
+/* ─── Game card — Undertale-style double border ─────────────── */
 #game-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 16px;
+  background: var(--panel);
+  border: 3px solid var(--shadow);
+  outline: 3px solid var(--bg-deep);
+  box-shadow: var(--pixel-shadow-lg), 6px 6px 0 var(--border);
   width: 100%;
   max-width: 520px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--s3);
+  padding: var(--s3);
+  image-rendering: pixelated;
 }
 
-/* ─── Alert banner ──────────────────────────────────────────────────────────── */
+/* Paw print corner decorations */
+#game-card::before {
+  content: '🐾';
+  position: absolute;
+  top: -2px;
+  right: 8px;
+  font-size: 10px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ─── Alert banner — speech bubble style ───────────────────── */
 #alert-banner {
   display: none;
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-family: 'Fredoka One', cursive;
-  font-size: 0.95rem;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.6;
+  padding: var(--s2) var(--s3);
+  border: 2px solid var(--shadow);
+  box-shadow: var(--pixel-shadow);
   text-align: center;
-  animation: alertPulse 1s infinite alternate;
+  letter-spacing: 0.5px;
+  position: relative;
 }
-#alert-banner.warning  { background: #fff3cd; color: #856404; border: 2px solid #ffe066; }
-#alert-banner.critical { background: #ffe0e0; color: #cc0000; border: 2px solid #ff4444; }
-@keyframes alertPulse {
-  from { opacity: 0.85; }
-  to   { opacity: 1;    }
+/* Speech bubble tail */
+#alert-banner::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 24px;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  border-right: 2px solid var(--shadow);
+  border-bottom: 2px solid var(--shadow);
+  transform: rotate(45deg);
+}
+#alert-banner.warning  {
+  background: var(--yellow);
+  color: var(--shadow);
+  border-color: var(--shadow);
+}
+#alert-banner.critical {
+  background: var(--red);
+  color: var(--panel);
+  border-color: var(--shadow);
+  animation: criticalFlash 0.4s steps(1, end) infinite;
+}
+@keyframes criticalFlash {
+  0%   { background: var(--red); }
+  50%  { background: var(--shadow); }
+  100% { background: var(--red); }
 }
 
-/* ─── Canvas ────────────────────────────────────────────────────────────────── */
+/* ─── Canvas — Game Boy bezel ───────────────────────────────── */
 #canvas-wrap {
   display: flex;
   justify-content: center;
   position: relative;
+  /* Outer bezel */
+  background: var(--shadow);
+  border: 3px solid var(--shadow);
+  box-shadow: var(--pixel-shadow-lg), 6px 6px 0 var(--border);
+  padding: var(--s2);
+}
+
+/* Screen scanline overlay — CRT effect */
+#canvas-wrap::after {
+  content: '';
+  position: absolute;
+  inset: var(--s2);
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,0,0,0.06) 3px,
+    rgba(0,0,0,0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Screen glow */
+#canvas-wrap::before {
+  content: '';
+  position: absolute;
+  inset: var(--s2);
+  box-shadow: inset 0 0 20px rgba(254,231,97,0.08);
+  pointer-events: none;
+  z-index: 11;
 }
 
 #game {
@@ -81,147 +196,227 @@ h1 {
   image-rendering: crisp-edges;
   width: 480px;
   height: 432px;
-  border-radius: 12px;
-  border: 3px solid var(--dark);
-  box-shadow: 4px 4px 0 var(--dark);
   display: block;
+  position: relative;
+  z-index: 1;
 }
 
-/* ─── Mood caption ──────────────────────────────────────────────────────────── */
+/* ─── Mood caption — pixel speech bubble ───────────────────── */
 #mood-caption {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.8;
   text-align: center;
-  font-family: 'Fredoka One', cursive;
-  font-size: 1.05rem;
-  padding: 4px 0;
-  transition: color 0.4s;
+  padding: var(--s2) var(--s3);
+  border: 2px solid var(--shadow);
+  box-shadow: var(--pixel-shadow);
+  letter-spacing: 0.5px;
+  transition: background 0.3s steps(1, end), color 0.3s steps(1, end);
 }
-.mood-happy   { color: var(--pink); }
-.mood-neutral { color: #888; }
-.mood-sad     { color: #5588cc; }
-.mood-sick    { color: #cc6600; }
+.mood-happy   { background: var(--yellow); color: var(--shadow); }
+.mood-neutral { background: var(--panel);  color: var(--shadow); }
+.mood-sad     { background: #8B9BB4;       color: var(--panel);  }
+.mood-sick    { background: var(--red);    color: var(--panel); animation: sickPulse 1s steps(2, end) infinite; }
+@keyframes sickPulse {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.75; }
+  100% { opacity: 1; }
+}
 
-/* ─── Background selector ───────────────────────────────────────────────────── */
-.selector-section { display: flex; flex-direction: column; gap: 6px; }
+/* ─── Section labels ────────────────────────────────────────── */
 .selector-label {
-  font-family: 'Fredoka One', cursive;
-  font-size: 0.8rem;
-  color: #888;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--border);
+  letter-spacing: 2px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  padding-left: 4px;
+  padding: 0 var(--s1);
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
 }
+.selector-label::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 2px;
+  background: var(--border);
+}
+.selector-label::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  opacity: 0.3;
+}
+
+/* ─── Selector rows ─────────────────────────────────────────── */
+.selector-section { display: flex; flex-direction: column; gap: var(--s1); }
 
 .selector-row {
   display: flex;
   overflow-x: auto;
-  gap: 8px;
-  padding: 4px 2px 6px;
-  scrollbar-width: none;
+  gap: var(--s2);
+  padding: var(--s1) var(--s1) var(--s2);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg-deep);
 }
-.selector-row::-webkit-scrollbar { display: none; }
+.selector-row::-webkit-scrollbar { height: 4px; }
+.selector-row::-webkit-scrollbar-track { background: var(--bg-deep); }
+.selector-row::-webkit-scrollbar-thumb { background: var(--border); }
 
 .selector-thumb {
   flex-shrink: 0;
-  width: 68px;
-  height: 54px;
-  border: 3px solid #e0e0e0;
-  border-radius: 10px;
-  background: #f5f5f5;
+  width: 64px;
+  border: 2px solid var(--border);
+  box-shadow: 2px 2px 0 var(--shadow);
+  background: var(--bg-deep);
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 2px;
-  padding: 4px;
-  transition: border-color 0.15s, transform 0.1s;
-  font-family: 'Fredoka', sans-serif;
-  font-size: 0.6rem;
-  color: #555;
-  overflow: hidden;
+  justify-content: flex-end;
+  padding: var(--s1);
+  gap: var(--s1);
+  transition: none;
+  image-rendering: pixelated;
 }
 .selector-thumb canvas {
   width: 100%;
   height: auto;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+  display: block;
 }
-.selector-thumb:hover    { border-color: var(--pink); transform: scale(1.05); }
-.selector-thumb.active   { border-color: var(--orange); background: #fff8f0; }
 .selector-thumb .thumb-label {
-  font-size: 0.55rem;
-  font-family: 'Fredoka', sans-serif;
-  color: #666;
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  color: var(--panel);
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
 }
+.selector-thumb:hover {
+  background: var(--border);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--shadow);
+}
+.selector-thumb.active {
+  background: var(--accent1);
+  border-color: var(--shadow);
+  box-shadow: 2px 2px 0 var(--shadow);
+  transform: translate(1px, 1px);
+}
+.selector-thumb.active .thumb-label { color: var(--panel); }
 
-/* ─── Stat bars ─────────────────────────────────────────────────────────────── */
-#stats-panel { display: flex; flex-direction: column; gap: 6px; }
+/* ─── Stat bars — pixel bars with step transition ───────────── */
+#stats-panel { display: flex; flex-direction: column; gap: var(--s2); }
 
 .stat-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 80px 1fr;
   align-items: center;
-  gap: 8px;
+  gap: var(--s2);
 }
+
 .stat-label {
-  width: 90px;
-  font-size: 0.82rem;
-  font-family: 'Fredoka', sans-serif;
-  color: #555;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--shadow);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--s1);
 }
+
 .stat-bar-track {
-  flex: 1;
-  height: 10px;
-  background: #eee;
-  border-radius: 6px;
+  height: 14px;
+  background: var(--bg-deep);
+  border: 2px solid var(--shadow);
+  box-shadow: 2px 2px 0 var(--shadow);
   overflow: hidden;
-  border: 1px solid #ddd;
+  position: relative;
 }
+
+/* Inner highlight line — Ken Sugimori 3D illusion */
+.stat-bar-track::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.15);
+  z-index: 2;
+  pointer-events: none;
+}
+
 .stat-bar-fill {
   height: 100%;
   width: var(--pct, 100%);
-  border-radius: 6px;
-  transition: width 0.4s ease, background-color 0.3s;
+  /* Step transition = pixel animation, NOT smooth web feel */
+  transition: width 0.4s steps(10, end);
+  position: relative;
+}
+/* Top highlight stripe on fill */
+.stat-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: rgba(255,255,255,0.3);
 }
 
-/* Stat bar colors */
-#bar-hunger      { --bar-color: var(--orange); }
-#bar-happiness   { --bar-color: var(--pink);   }
-#bar-cleanliness { --bar-color: var(--teal);   }
-#bar-energy      { --bar-color: #aadd44;       }
-#bar-bladder     { --bar-color: var(--blue);   }
-#bar-bowel       { --bar-color: var(--brown);  }
-
-.stat-bar-fill {
-  background-color: var(--bar-color, #aaa);
-}
-.stat-bar-fill.warning  { background-color: #ffaa00 !important; }
-.stat-bar-fill.critical { background-color: #ff4444 !important; animation: barPulse 0.5s infinite alternate; }
-
-@keyframes barPulse {
-  from { opacity: 0.7; }
-  to   { opacity: 1;   }
+/* Trailing edge border */
+.stat-bar-fill::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 2px;
+  background: var(--shadow);
 }
 
-/* ─── Action buttons ────────────────────────────────────────────────────────── */
-#action-area { display: flex; flex-direction: column; gap: 8px; }
+/* Per-stat colors */
+#bar-hunger      { background: var(--accent1); }
+#bar-happiness   { background: var(--yellow);  }
+#bar-cleanliness { background: var(--cyan);    }
+#bar-energy      { background: var(--green);   }
+#bar-bladder     { background: var(--blue);    }
+#bar-bowel       { background: #A87040;        }
 
-#main-actions {
+/* Warning/critical states */
+.stat-bar-fill.warning  { background: var(--accent2) !important; }
+.stat-bar-fill.critical {
+  background: var(--red) !important;
+  animation: barFlash 0.3s steps(1, end) infinite;
+}
+@keyframes barFlash {
+  0%   { background: var(--red); }
+  50%  { background: var(--shadow); }
+  100% { background: var(--red); }
+}
+
+/* ─── Action area divider ────────────────────────────────────── */
+.section-divider {
+  height: 2px;
+  background: var(--bg-deep);
+  border-top: 1px solid var(--shadow);
+  border-bottom: 1px solid var(--panel);
+  margin: 0 calc(-1 * var(--s1));
+}
+
+/* ─── Action buttons — Undertale-style pixel buttons ────────── */
+#action-area { display: flex; flex-direction: column; gap: var(--s2); }
+
+#main-actions,
+#actions-row2,
+#actions-row3 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-#secondary-actions {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  gap: var(--s2);
 }
 
 .action-btn {
@@ -229,94 +424,189 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  padding: 10px 4px 8px;
-  border-radius: 12px;
-  border: 2px solid #e0e0e0;
-  background: #fafafa;
-  cursor: pointer;
-  font-family: 'Fredoka', sans-serif;
-  font-size: 0.72rem;
-  color: #444;
-  transition: transform 0.1s, background 0.15s, border-color 0.15s;
+  gap: var(--s1);
+  padding: var(--s2) var(--s1) var(--s2);
+  border: 2px solid var(--shadow);
+  background: var(--panel);
+  box-shadow: 3px 3px 0 var(--shadow);
+  color: var(--shadow);
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  letter-spacing: 0.3px;
+  min-height: 58px;
   position: relative;
-  min-height: 60px;
+  /* NO transition — pixel feel is instant */
+  transition: none;
+  image-rendering: pixelated;
 }
-.action-btn .btn-emoji { font-size: 1.4rem; line-height: 1; }
-.action-btn .btn-label { font-weight: 600; }
+
+.action-btn .btn-emoji {
+  font-size: 1.3rem;
+  line-height: 1;
+  image-rendering: pixelated;
+}
+.action-btn .btn-label {
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  letter-spacing: 0.5px;
+}
 .action-btn .cd-label {
   display: none;
   position: absolute;
-  top: 4px;
-  right: 6px;
-  font-size: 0.6rem;
-  color: #aaa;
-  font-family: 'Fredoka', sans-serif;
-}
-.action-btn:hover:not(:disabled) {
-  transform: translateY(-2px) scale(1.04);
-  border-color: var(--pink);
-  background: #fff8fc;
-}
-.action-btn:active:not(:disabled) {
-  transform: scale(0.96);
-}
-.action-btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-.action-btn.on-cooldown .btn-emoji { opacity: 0.5; }
-.action-btn.urgent {
-  border-color: #ff4444;
-  background: #fff0f0;
-  animation: urgentPulse 0.6s infinite alternate;
-}
-@keyframes urgentPulse {
-  from { box-shadow: 0 0 0 0 rgba(255,68,68,0.3); }
-  to   { box-shadow: 0 0 0 4px rgba(255,68,68,0.1); }
+  top: 3px; right: 5px;
+  font-family: var(--font-pixel);
+  font-size: 5px;
+  color: var(--border);
+  letter-spacing: 0.3px;
 }
 
-/* Tricks submenu */
-#tricks-wrap {
-  position: relative;
+/* Hover — shift shadow to simulate press */
+.action-btn:hover:not(:disabled) {
+  background: var(--accent2);
+  color: var(--shadow);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--shadow);
 }
+
+/* Active / press — full "pressed in" effect */
+.action-btn:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--shadow);
+}
+
+.action-btn:disabled {
+  background: var(--bg-deep);
+  color: var(--border);
+  box-shadow: 1px 1px 0 var(--shadow);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.action-btn.on-cooldown .btn-emoji { opacity: 0.5; }
+
+/* Urgent pulsing buttons (poo/pee critical) */
+.action-btn.urgent {
+  background: var(--red);
+  color: var(--panel);
+  border-color: var(--shadow);
+  animation: urgentFlash 0.4s steps(1, end) infinite;
+}
+@keyframes urgentFlash {
+  0%   { background: var(--red); color: var(--panel); }
+  50%  { background: var(--shadow); color: var(--yellow); }
+  100% { background: var(--red); color: var(--panel); }
+}
+
+/* Per-button color variants — themed by action */
+[data-action="pet"]    { --btn-bg: #FF9EC4; }
+[data-action="feed"]   { --btn-bg: var(--green); }
+[data-action="bath"]   { --btn-bg: var(--cyan); }
+[data-action="play"]   { --btn-bg: var(--accent1); }
+[data-action="sleep"]  { --btn-bg: #8B9BB4; }
+[data-action="wake"]   { --btn-bg: var(--yellow); }
+[data-action="walk"]   { --btn-bg: var(--accent2); }
+[data-action="praise"] { --btn-bg: var(--yellow); }
+[data-action="scold"]  { --btn-bg: #C0A080; }
+[data-action="heal"]   { --btn-bg: var(--green); border-color: var(--green) !important; }
+
+[data-action]:not(:disabled):not(.urgent) {
+  background: var(--btn-bg, var(--panel));
+}
+
+/* ─── Tricks submenu ────────────────────────────────────────── */
+#tricks-wrap { position: relative; }
+
 #tricks-menu {
   display: none;
   position: absolute;
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + var(--s2));
   left: 50%;
   transform: translateX(-50%);
-  background: white;
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 8px;
-  gap: 8px;
-  box-shadow: var(--shadow);
+  background: var(--panel);
+  border: 2px solid var(--shadow);
+  box-shadow: var(--pixel-shadow-lg), 5px 5px 0 var(--border);
+  padding: var(--s2);
+  gap: var(--s2);
   z-index: 100;
   flex-direction: column;
-  width: 160px;
+  width: 140px;
+  image-rendering: pixelated;
 }
 #tricks-menu.visible { display: flex; }
-#tricks-menu .action-btn { flex-direction: row; justify-content: flex-start; gap: 8px; min-height: 44px; }
+#tricks-menu .action-btn {
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: var(--s2);
+  min-height: 40px;
+  padding: var(--s2);
+}
+#tricks-toggle {
+  --btn-bg: #C084D4;
+}
 
-/* Heal button (hidden until sick) */
-[data-action="heal"] { border-color: #88cc66; background: #f0fff4; }
+/* Heal button */
+[data-action="heal"] {
+  display: none;
+  background: var(--green) !important;
+  color: var(--shadow) !important;
+  animation: healGlow 1s steps(2, end) infinite;
+}
+@keyframes healGlow {
+  0%   { box-shadow: 3px 3px 0 var(--shadow); }
+  50%  { box-shadow: 3px 3px 0 var(--shadow), 0 0 0 2px var(--green); }
+  100% { box-shadow: 3px 3px 0 var(--shadow); }
+}
 
-/* ─── Footer ────────────────────────────────────────────────────────────────── */
+/* ─── Pixel divider with paw prints ────────────────────────── */
+.paw-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  color: var(--border);
+  font-size: 8px;
+  opacity: 0.5;
+  user-select: none;
+}
+.paw-divider::before,
+.paw-divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  opacity: 0.4;
+}
+
+/* ─── Footer ────────────────────────────────────────────────── */
 #footer {
-  font-size: 0.7rem;
-  color: #bbb;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--border);
   text-align: center;
-  margin-top: 8px;
+  letter-spacing: 1px;
+  opacity: 0.7;
 }
 
-/* ─── Responsive ────────────────────────────────────────────────────────────── */
+/* ─── Responsive ────────────────────────────────────────────── */
 @media (max-width: 520px) {
-  #game { width: 100%; height: auto; aspect-ratio: 160/144; }
-  #main-actions, #secondary-actions { grid-template-columns: repeat(4, 1fr); }
-  .action-btn { padding: 8px 2px 6px; font-size: 0.65rem; min-height: 52px; }
-  .action-btn .btn-emoji { font-size: 1.2rem; }
+  #game {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 160 / 144;
+  }
+  #game-title { font-size: 14px; }
+  #main-actions, #actions-row2, #actions-row3 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s1);
+  }
+  .action-btn {
+    padding: var(--s2) 2px;
+    font-size: 6px;
+    min-height: 50px;
+  }
+  .action-btn .btn-emoji { font-size: 1.1rem; }
 }
-@media (max-width: 380px) {
-  #main-actions, #secondary-actions { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 360px) {
+  #main-actions, #actions-row2, #actions-row3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
