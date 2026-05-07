@@ -106,31 +106,34 @@ body { font-family: var(--body); color: var(--ink); }
 @media (max-width: 600px) {
   /* Fondo papel para que el cielo/piso del escenario no asome arriba ni abajo */
   body { background: var(--paper); }
-  /* Escenario llena el espacio entre header y stats, pero el cielo se difumina al paper arriba */
+  /* Escenario: franja responsive anclada arriba del stats banner */
   .scene-wrap {
-    top: 60px !important;
+    top: auto !important;
     bottom: 168px !important;
     left: 0 !important;
     right: 0 !important;
-    height: auto !important;
+    height: 28vh !important;
+    max-height: 280px !important;
+    min-height: 160px !important;
     overflow: hidden;
   }
-  .scene-wrap::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 55%;
-    background: linear-gradient(to bottom, var(--paper) 0%, var(--paper) 35%, transparent 100%);
-    pointer-events: none;
-    z-index: 1;
+  /* Escalamos el SVG para mostrar solo el horizonte/piso, sin cielo ni elementos altos */
+  .scene-wrap svg {
+    transform: scale(1.7) !important;
+    transform-origin: center bottom !important;
   }
 
-  /* Ringo apoyado sobre el horizonte, justo arriba del stats banner */
+  /* Ringo apoyado sobre el piso, justo arriba del stats banner */
   .ringo-stage {
     top: auto !important;
-    bottom: 168px !important;
-    transform: translate(-50%, 28%) !important;
+    bottom: 250px !important;
+    transform: translate(-50%, -50%) !important;
   }
+
+  /* Z-index para que cards queden sobre el escenario */
+  .diary-header > .paper-card,
+  .stats-card,
+  .action-panel { z-index: 3; }
 
   /* Header pegado arriba */
   .diary-header { top: 4px !important; left: 4px !important; right: 4px !important; gap: 4px; }
@@ -143,8 +146,8 @@ body { font-family: var(--body); color: var(--ink); }
   .diary-header > .paper-card:nth-child(2) span:first-child { font-size: 14px !important; }
   .diary-header > .paper-card:nth-child(2) span:last-child { font-size: 14px !important; }
 
-  /* Ringo más arriba — entre el header y el bloque inferior */
-  .ringo-stage { top: 35% !important; }
+  /* Ocultar vignette de diary mode en mobile (oscurece el papel beige y se ve raro) */
+  .paper-grain { display: none !important; }
 
   /* Diario lateral oculto */
   .diary-log { display: none !important; }
