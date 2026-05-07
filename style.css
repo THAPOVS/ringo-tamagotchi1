@@ -1,621 +1,149 @@
-/* ============================================================
-   RINGO — Pixel Art Virtual Pet Game
-   Design system inspired by:
-   - Endesga-32 palette (ConcernedApe / Stardew Valley influence)
-   - Ken Sugimori silhouette-first principles (Pokémon)
-   - Toby Fox radical UI consistency (Undertale)
-   - Yoshitaka Amano thematic motifs (Final Fantasy)
-   ============================================================ */
+/* Ringo's Diary — three art directions sharing one base */
 
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bowlby+One&family=Caveat:wght@400;700&family=Nunito:wght@400;700;800;900&family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,900&display=swap');
 
-/* ─── Design tokens ─────────────────────────────────────────── */
 :root {
-  --bg:         #EAD4AA;   /* Warm Parchment */
-  --bg-deep:    #C8A97A;   /* Toasted Oat */
-  --panel:      #FBF5EF;   /* Soft Cream */
-  --accent1:    #F77622;   /* Sunset Amber */
-  --accent2:    #FEAE34;   /* Honey Gold */
-  --border:     #733E39;   /* Bark Brown */
-  --shadow:     #3E2731;   /* Midnight Soil */
-  --green:      #63C74D;   /* Clover Green */
-  --red:        #BE4A2F;   /* Terracotta */
-  --yellow:     #FEE761;   /* Buttercup */
-  --blue:       #41A6F6;   /* Sky Blue */
-  --cyan:       #2CE8F5;   /* Clean Cyan */
-
-  --font-pixel:   'Silkscreen', monospace;
-  --font-display: 'Press Start 2P', monospace;
-  --font-body:    'Nunito', sans-serif;
-
-  /* All spacing is multiples of 8 — Ken Sugimori grid rule */
-  --s1: 4px;
-  --s2: 8px;
-  --s3: 16px;
-  --s4: 24px;
-  --s5: 32px;
-
-  --pixel-border: 2px solid var(--shadow);
-  --pixel-shadow: 3px 3px 0 var(--shadow);
-  --pixel-shadow-lg: 4px 4px 0 var(--shadow);
+  --display: 'Bowlby One', 'Fraunces', serif;
+  --hand:    'Caveat', cursive;
+  --body:    'Nunito', system-ui, sans-serif;
+  --paper:   #FBEAD0;
+  --ink:     #1A1310;
+  --accent:  #C82F3A;
 }
 
-/* ─── Reset ─────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-button { cursor: pointer; font-family: inherit; }
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+body { font-family: var(--body); color: var(--ink); }
 
-/* ─── Body — textured parchment background ──────────────────── */
-body {
-  background-color: var(--bg);
-  /* ConcernedApe rule: texture over solid fill */
-  background-image:
-    linear-gradient(rgba(62,39,49,.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(62,39,49,.06) 1px, transparent 1px);
-  background-size: 8px 8px;
-  font-family: var(--font-body);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  padding: var(--s3) var(--s2) var(--s5);
-  gap: var(--s3);
+/* ─── Paper card (default / diary) ─── */
+.paper-card {
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  box-shadow: 4px 6px 0 var(--ink);
 }
 
-/* ─── Game logo / title ─────────────────────────────────────── */
-#game-logo {
-  display: block;
-  margin: 0 auto;
-  width: 240px;
-  height: auto;
-  image-rendering: pixelated;
-  filter: drop-shadow(3px 3px 0 var(--shadow));
-}
-
-#game-title {
-  font-family: var(--font-display);
-  font-size: 20px;
-  color: var(--panel);
-  text-shadow:
-    2px  2px 0 var(--shadow),
-    -1px -1px 0 var(--border);
-  letter-spacing: 2px;
-  text-align: center;
-  padding: var(--s2) 0 var(--s1);
-  /* Paw prints as pseudo-elements */
-  display: flex;
-  align-items: center;
-  gap: var(--s2);
-}
-#game-title::before,
-#game-title::after {
-  content: '🐾';
-  font-size: 14px;
-  filter: drop-shadow(1px 1px 0 var(--shadow));
-}
-
-/* ─── Game card — Undertale-style double border ─────────────── */
-#game-card {
-  background: var(--panel);
-  border: 3px solid var(--shadow);
-  outline: 3px solid var(--bg-deep);
-  box-shadow: var(--pixel-shadow-lg), 6px 6px 0 var(--border);
-  width: 100%;
-  max-width: 520px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--s3);
-  padding: var(--s3);
-  image-rendering: pixelated;
-}
-
-/* Paw print corner decorations */
-#game-card::before {
-  content: '🐾';
-  position: absolute;
-  top: -2px;
-  right: 8px;
-  font-size: 10px;
-  opacity: 0.4;
-  pointer-events: none;
-}
-
-/* ─── Alert banner — speech bubble style ───────────────────── */
-#alert-banner {
-  display: none;
-  font-family: var(--font-pixel);
-  font-size: 8px;
-  line-height: 1.6;
-  padding: var(--s2) var(--s3);
-  border: 2px solid var(--shadow);
-  box-shadow: var(--pixel-shadow);
-  text-align: center;
-  letter-spacing: 0.5px;
+/* Diary direction — taped scrapbook feel */
+.art-diary .paper-card {
+  background: var(--paper);
   position: relative;
 }
-/* Speech bubble tail */
-#alert-banner::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 24px;
-  width: 8px;
-  height: 8px;
-  background: inherit;
-  border-right: 2px solid var(--shadow);
-  border-bottom: 2px solid var(--shadow);
-  transform: rotate(45deg);
+.art-diary .diary-header > .paper-card:first-child {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 22px, rgba(139,94,60,0.06) 22px 23px),
+    var(--paper);
 }
-#alert-banner.warning  {
-  background: var(--yellow);
-  color: var(--shadow);
-  border-color: var(--shadow);
+.art-diary .paper-card::before {
+  content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg);
+  width: 60px; height: 18px; background: rgba(255,216,107,0.6);
+  border: 1px solid rgba(139,94,60,0.4); pointer-events: none;
 }
-#alert-banner.critical {
-  background: var(--red);
-  color: var(--panel);
-  border-color: var(--shadow);
-  animation: criticalFlash 0.4s steps(1, end) infinite;
+.art-diary .stats-card { transform: rotate(-1.4deg); }
+.art-diary .diary-log  { transform: rotate(1.2deg); }
+.art-diary .diary-header > .paper-card:first-child { transform: rotate(-0.5deg); }
+
+/* Soft direction — claymation, big shadows, no hard borders */
+.art-soft .paper-card {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(20px);
+  border: none;
+  border-radius: 28px;
+  box-shadow: 0 14px 40px rgba(26,19,16,0.18), 0 2px 0 rgba(255,255,255,0.6) inset;
 }
-@keyframes criticalFlash {
-  0%   { background: var(--red); }
-  50%  { background: var(--shadow); }
-  100% { background: var(--red); }
+.art-soft .paper-card::before { display: none; }
+.art-soft .action-btn {
+  border: none !important;
+  border-radius: 18px !important;
+  box-shadow: 0 6px 12px rgba(26,19,16,0.15), 0 -2px 0 rgba(255,255,255,0.6) inset !important;
+}
+.art-soft .tab {
+  border: none !important;
+  border-radius: 14px !important;
 }
 
-/* ─── Canvas — Game Boy bezel ───────────────────────────────── */
-#canvas-wrap {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  /* Outer bezel */
-  background: var(--shadow);
-  border: 3px solid var(--shadow);
-  box-shadow: var(--pixel-shadow-lg), 6px 6px 0 var(--border);
-  padding: var(--s2);
+/* Sticker direction — chunky black borders, hard shadows, high contrast */
+.art-sticker {
+  background: #FFD86B;
+}
+.art-sticker .paper-card {
+  background: #FFFFFF;
+  border: 4px solid var(--ink);
+  border-radius: 18px;
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.art-sticker .paper-card::before { display: none; }
+.art-sticker .action-btn {
+  border-width: 3.5px !important;
+  box-shadow: 4px 4px 0 var(--ink) !important;
 }
 
-/* Screen scanline overlay — CRT effect */
-#canvas-wrap::after {
-  content: '';
-  position: absolute;
-  inset: var(--s2);
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 3px,
-    rgba(0,0,0,0.06) 3px,
-    rgba(0,0,0,0.06) 4px
-  );
-  pointer-events: none;
-  z-index: 10;
+/* ─── Layout ─── */
+.action-row {
+  display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
 }
 
-/* Screen glow */
-#canvas-wrap::before {
-  content: '';
-  position: absolute;
-  inset: var(--s2);
-  box-shadow: inset 0 0 20px rgba(254,231,97,0.08);
-  pointer-events: none;
-  z-index: 11;
-}
-
-#game {
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  width: 480px;
-  height: 432px;
-  display: block;
-  position: relative;
-  z-index: 1;
-}
-
-/* ─── Mood caption — pixel speech bubble ───────────────────── */
-#mood-caption {
-  font-family: var(--font-pixel);
-  font-size: 8px;
-  line-height: 1.8;
-  text-align: center;
-  padding: var(--s2) var(--s3);
-  border: 2px solid var(--shadow);
-  box-shadow: var(--pixel-shadow);
-  letter-spacing: 0.5px;
-  transition: background 0.3s steps(1, end), color 0.3s steps(1, end);
-}
-.mood-happy   { background: var(--yellow); color: var(--shadow); }
-.mood-neutral { background: var(--panel);  color: var(--shadow); }
-.mood-sad     { background: #8B9BB4;       color: var(--panel);  }
-.mood-sick    { background: var(--red);    color: var(--panel); animation: sickPulse 1s steps(2, end) infinite; }
-@keyframes sickPulse {
-  0%   { opacity: 1; }
-  50%  { opacity: 0.75; }
-  100% { opacity: 1; }
-}
-
-/* ─── Section labels ────────────────────────────────────────── */
-.selector-label {
-  font-family: var(--font-pixel);
-  font-size: 7px;
-  color: var(--border);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 0 var(--s1);
-  display: flex;
-  align-items: center;
-  gap: var(--s1);
-}
-.selector-label::before {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 2px;
-  background: var(--border);
-}
-.selector-label::after {
-  content: '';
-  flex: 1;
-  height: 2px;
-  background: var(--border);
-  opacity: 0.3;
-}
-
-/* ─── Selector rows ─────────────────────────────────────────── */
-.selector-section { display: flex; flex-direction: column; gap: var(--s1); }
-
-.selector-row {
-  display: flex;
-  overflow-x: auto;
-  gap: var(--s2);
-  padding: var(--s1) var(--s1) var(--s2);
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) var(--bg-deep);
-}
-.selector-row::-webkit-scrollbar { height: 4px; }
-.selector-row::-webkit-scrollbar-track { background: var(--bg-deep); }
-.selector-row::-webkit-scrollbar-thumb { background: var(--border); }
-
-.selector-thumb {
-  flex-shrink: 0;
-  width: 64px;
-  border: 2px solid var(--border);
-  box-shadow: 2px 2px 0 var(--shadow);
-  background: var(--bg-deep);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  padding: var(--s1);
-  gap: var(--s1);
-  transition: none;
-  image-rendering: pixelated;
-}
-.selector-thumb canvas {
-  width: 100%;
-  height: auto;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-  display: block;
-}
-.selector-thumb .thumb-label {
-  font-family: var(--font-pixel);
-  font-size: 6px;
-  color: var(--panel);
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-  line-height: 1.4;
-  letter-spacing: 0.3px;
-}
-.selector-thumb:hover {
-  background: var(--border);
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 var(--shadow);
-}
-.selector-thumb.active {
-  background: var(--accent1);
-  border-color: var(--shadow);
-  box-shadow: 2px 2px 0 var(--shadow);
-  transform: translate(1px, 1px);
-}
-.selector-thumb.active .thumb-label { color: var(--panel); }
-
-/* ─── Stat bars — pixel bars with step transition ───────────── */
-#stats-panel { display: flex; flex-direction: column; gap: var(--s2); }
-
-.stat-row {
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  align-items: center;
-  gap: var(--s2);
-}
-
-.stat-label {
-  font-family: var(--font-pixel);
-  font-size: 7px;
-  color: var(--shadow);
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: var(--s1);
-}
-
-.stat-bar-track {
-  height: 14px;
-  background: var(--bg-deep);
-  border: 2px solid var(--shadow);
-  box-shadow: 2px 2px 0 var(--shadow);
-  overflow: hidden;
-  position: relative;
-}
-
-/* Inner highlight line — Ken Sugimori 3D illusion */
-.stat-bar-track::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: rgba(255,255,255,0.15);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.stat-bar-fill {
-  height: 100%;
-  width: var(--pct, 100%);
-  /* Step transition = pixel animation, NOT smooth web feel */
-  transition: width 0.4s steps(10, end);
-  position: relative;
-}
-/* Top highlight stripe on fill */
-.stat-bar-fill::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 4px;
-  background: rgba(255,255,255,0.3);
-}
-
-/* Trailing edge border */
-.stat-bar-fill::before {
-  content: '';
-  position: absolute;
-  top: 0; right: 0; bottom: 0;
-  width: 2px;
-  background: var(--shadow);
-}
-
-/* Per-stat colors */
-#bar-hunger      { background: var(--accent1); }
-#bar-happiness   { background: var(--yellow);  }
-#bar-cleanliness { background: var(--cyan);    }
-#bar-energy      { background: var(--green);   }
-#bar-bladder     { background: var(--blue);    }
-#bar-bowel       { background: #A87040;        }
-
-/* Warning/critical states */
-.stat-bar-fill.warning  { background: var(--accent2) !important; }
-.stat-bar-fill.critical {
-  background: var(--red) !important;
-  animation: barFlash 0.3s steps(1, end) infinite;
-}
-@keyframes barFlash {
-  0%   { background: var(--red); }
-  50%  { background: var(--shadow); }
-  100% { background: var(--red); }
-}
-
-/* ─── Action area divider ────────────────────────────────────── */
-.section-divider {
-  height: 2px;
-  background: var(--bg-deep);
-  border-top: 1px solid var(--shadow);
-  border-bottom: 1px solid var(--panel);
-  margin: 0 calc(-1 * var(--s1));
-}
-
-/* ─── Action buttons — Undertale-style pixel buttons ────────── */
-#action-area { display: flex; flex-direction: column; gap: var(--s2); }
-
-#main-actions,
-#actions-row2,
-#actions-row3 {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--s2);
-}
-
-.action-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--s1);
-  padding: var(--s2) var(--s1) var(--s2);
-  border: 2px solid var(--shadow);
-  background: var(--panel);
-  box-shadow: 3px 3px 0 var(--shadow);
-  color: var(--shadow);
-  font-family: var(--font-pixel);
-  font-size: 7px;
-  letter-spacing: 0.3px;
-  min-height: 58px;
-  position: relative;
-  /* NO transition — pixel feel is instant */
-  transition: none;
-  image-rendering: pixelated;
-}
-
-.action-btn .btn-emoji {
-  font-size: 1.3rem;
-  line-height: 1;
-  image-rendering: pixelated;
-}
-.action-btn .btn-label {
-  font-family: var(--font-pixel);
-  font-size: 6px;
-  letter-spacing: 0.5px;
-}
-.action-btn .cd-label {
-  display: none;
-  position: absolute;
-  top: 3px; right: 5px;
-  font-family: var(--font-pixel);
-  font-size: 5px;
-  color: var(--border);
-  letter-spacing: 0.3px;
-}
-
-/* Hover — shift shadow to simulate press */
 .action-btn:hover:not(:disabled) {
-  background: var(--accent2);
-  color: var(--shadow);
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0 var(--shadow);
+  transform: translateY(-1px);
 }
-
-/* Active / press — full "pressed in" effect */
 .action-btn:active:not(:disabled) {
-  transform: translate(3px, 3px);
-  box-shadow: 0 0 0 var(--shadow);
+  transform: translateY(2px);
+  box-shadow: 0 0 0 var(--ink) !important;
 }
 
-.action-btn:disabled {
-  background: var(--bg-deep);
-  color: var(--border);
-  box-shadow: 1px 1px 0 var(--shadow);
-  opacity: 0.6;
-  cursor: not-allowed;
+/* ─── Animations ─── */
+@keyframes rfloat {
+  0%   { opacity: 0; transform: translate(-50%, 10px) scale(0.7); }
+  20%  { opacity: 1; transform: translate(-50%, -10px) scale(1.1); }
+  100% { opacity: 0; transform: translate(-50%, -80px) scale(1); }
 }
 
-.action-btn.on-cooldown .btn-emoji { opacity: 0.5; }
-
-/* Urgent pulsing buttons (poo/pee critical) */
-.action-btn.urgent {
-  background: var(--red);
-  color: var(--panel);
-  border-color: var(--shadow);
-  animation: urgentFlash 0.4s steps(1, end) infinite;
-}
-@keyframes urgentFlash {
-  0%   { background: var(--red); color: var(--panel); }
-  50%  { background: var(--shadow); color: var(--yellow); }
-  100% { background: var(--red); color: var(--panel); }
-}
-
-/* Per-button color variants — themed by action */
-[data-action="pet"]    { --btn-bg: #FF9EC4; }
-[data-action="feed"]   { --btn-bg: var(--green); }
-[data-action="bath"]   { --btn-bg: var(--cyan); }
-[data-action="play"]   { --btn-bg: var(--accent1); }
-[data-action="sleep"]  { --btn-bg: #8B9BB4; }
-[data-action="wake"]   { --btn-bg: var(--yellow); }
-[data-action="walk"]   { --btn-bg: var(--accent2); }
-[data-action="praise"] { --btn-bg: var(--yellow); }
-[data-action="scold"]  { --btn-bg: #C0A080; }
-[data-action="heal"]   { --btn-bg: var(--green); border-color: var(--green) !important; }
-
-[data-action]:not(:disabled):not(.urgent) {
-  background: var(--btn-bg, var(--panel));
-}
-
-/* ─── Tricks submenu ────────────────────────────────────────── */
-#tricks-wrap { position: relative; }
-
-#tricks-menu {
-  display: none;
-  position: absolute;
-  bottom: calc(100% + var(--s2));
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--panel);
-  border: 2px solid var(--shadow);
-  box-shadow: var(--pixel-shadow-lg), 5px 5px 0 var(--border);
-  padding: var(--s2);
-  gap: var(--s2);
-  z-index: 100;
-  flex-direction: column;
-  width: 140px;
-  image-rendering: pixelated;
-}
-#tricks-menu.visible { display: flex; }
-#tricks-menu .action-btn {
-  flex-direction: row;
-  justify-content: flex-start;
-  gap: var(--s2);
-  min-height: 40px;
-  padding: var(--s2);
-}
-#tricks-toggle {
-  --btn-bg: #C084D4;
-}
-
-/* Heal button */
-[data-action="heal"] {
-  display: none;
-  background: var(--green) !important;
-  color: var(--shadow) !important;
-  animation: healGlow 1s steps(2, end) infinite;
-}
-@keyframes healGlow {
-  0%   { box-shadow: 3px 3px 0 var(--shadow); }
-  50%  { box-shadow: 3px 3px 0 var(--shadow), 0 0 0 2px var(--green); }
-  100% { box-shadow: 3px 3px 0 var(--shadow); }
-}
-
-/* ─── Pixel divider with paw prints ────────────────────────── */
-.paw-divider {
-  display: flex;
-  align-items: center;
-  gap: var(--s1);
-  color: var(--border);
-  font-size: 8px;
-  opacity: 0.5;
-  user-select: none;
-}
-.paw-divider::before,
-.paw-divider::after {
-  content: '';
-  flex: 1;
-  height: 2px;
-  background: var(--border);
-  opacity: 0.4;
-}
-
-/* ─── Footer ────────────────────────────────────────────────── */
-#footer {
-  font-family: var(--font-pixel);
-  font-size: 7px;
-  color: var(--border);
-  text-align: center;
-  letter-spacing: 1px;
-  opacity: 0.7;
-}
-
-/* ─── Responsive ────────────────────────────────────────────── */
-@media (max-width: 520px) {
-  #game {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 160 / 144;
-  }
-  #game-title { font-size: 14px; }
-  #main-actions, #actions-row2, #actions-row3 {
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--s1);
-  }
-  .action-btn {
-    padding: var(--s2) 2px;
-    font-size: 6px;
-    min-height: 50px;
-  }
-  .action-btn .btn-emoji { font-size: 1.1rem; }
-}
-@media (max-width: 360px) {
-  #main-actions, #actions-row2, #actions-row3 {
-    grid-template-columns: repeat(3, 1fr);
+/* ─── Responsive ─── */
+@media (max-width: 760px) {
+  .stats-card, .diary-log {
+    width: 160px !important;
   }
 }
+@media (max-width: 600px) {
+  .ringo-stage { top: 42% !important; }
+
+  .diary-header { top: 12px !important; left: 12px !important; right: 12px !important; gap: 8px; }
+  .diary-header > .paper-card { padding: 8px 12px !important; }
+  .diary-header h1 { font-size: 20px !important; }
+
+  .diary-log { display: none !important; }
+
+  .stats-card {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 6px 10px !important;
+    top: auto !important;
+    bottom: 175px !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    padding: 8px 10px !important;
+    transform: none !important;
+  }
+  .stats-card > div:first-child { display: none; }
+  .stats-card > div { flex: 1 1 calc(33.333% - 8px); min-width: 0; margin-bottom: 0 !important; }
+  .stats-card > div > div:first-child { font-size: 11px !important; margin-bottom: 1px !important; }
+  .stats-card > div > div:last-child { height: 6px !important; }
+
+  .action-panel {
+    bottom: 12px !important;
+    width: calc(100% - 24px) !important;
+    padding: 10px !important;
+    gap: 8px !important;
+  }
+  .action-panel .tab { padding: 6px 10px !important; font-size: 12px !important; }
+  .action-row { gap: 4px !important; }
+  .action-btn { padding: 6px 2px !important; min-width: 0 !important; flex: 1 1 0 !important; }
+  .action-btn > span:first-child { font-size: 18px !important; }
+  .action-btn > span:nth-child(2) { font-size: 10px !important; }
+  .action-btn > span:nth-child(3) { font-size: 8px !important; }
+}
+
+/* Scrollbar tweak */
+.diary-log::-webkit-scrollbar { width: 6px; }
+.diary-log::-webkit-scrollbar-thumb { background: rgba(26,19,16,0.3); border-radius: 3px; }
