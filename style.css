@@ -104,7 +104,7 @@ body { font-family: var(--body); color: var(--ink); }
   }
 }
 @media (max-width: 600px) {
-  .ringo-stage { top: 38% !important; }
+  .ringo-stage { top: 36% !important; transform: translate(-50%, -50%) scale(0.7) !important; }
 
   .diary-header { top: 8px !important; left: 8px !important; right: 8px !important; gap: 6px; }
   .diary-header > .paper-card { padding: 6px 10px !important; }
