@@ -104,47 +104,59 @@ body { font-family: var(--body); color: var(--ink); }
   }
 }
 @media (max-width: 600px) {
-  .ringo-stage { top: 36% !important; transform: translate(-50%, -50%) scale(0.7) !important; }
+  /* Header pegado arriba */
+  .diary-header { top: 4px !important; left: 4px !important; right: 4px !important; gap: 4px; }
+  .diary-header > .paper-card { padding: 5px 10px !important; box-shadow: 2px 3px 0 #1A1310 !important; }
+  .diary-header > .paper-card::before { display: none !important; } /* sin cinta amarilla */
+  .diary-header h1 { font-size: 14px !important; line-height: 1.1 !important; }
+  .diary-header .paper-card:first-child > div:first-child { font-size: 9px !important; letter-spacing: 0 !important; }
+  .diary-header .paper-card:first-child > div:last-child { font-size: 9px !important; margin-top: 1px !important; }
+  .diary-header > .paper-card:nth-child(2) { padding: 4px 10px !important; gap: 6px !important; }
+  .diary-header > .paper-card:nth-child(2) span:first-child { font-size: 14px !important; }
+  .diary-header > .paper-card:nth-child(2) span:last-child { font-size: 14px !important; }
 
-  .diary-header { top: 8px !important; left: 8px !important; right: 8px !important; gap: 6px; }
-  .diary-header > .paper-card { padding: 6px 10px !important; }
-  .diary-header h1 { font-size: 16px !important; }
+  /* Ringo más arriba — entre el header y el bloque inferior */
+  .ringo-stage { top: 35% !important; }
 
+  /* Diario lateral oculto */
   .diary-log { display: none !important; }
 
+  /* Stats: banner pegado encima del action panel */
   .stats-card {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: wrap !important;
-    gap: 4px 8px !important;
+    gap: 2px 6px !important;
     top: auto !important;
-    bottom: 130px !important;
-    left: 8px !important;
-    right: 8px !important;
+    bottom: 116px !important;
+    left: 4px !important;
+    right: 4px !important;
     width: auto !important;
-    padding: 6px 8px !important;
+    padding: 4px 8px !important;
     transform: none !important;
+    box-shadow: 2px 3px 0 #1A1310 !important;
   }
+  .stats-card::before { display: none !important; }
   .stats-card > div:first-child { display: none; }
-  .stats-card > div { flex: 1 1 calc(33.333% - 8px); min-width: 0; margin-bottom: 0 !important; }
-  .stats-card > div > div:first-child { font-size: 10px !important; margin-bottom: 1px !important; }
-  .stats-card > div > div:last-child { height: 5px !important; }
+  .stats-card > div { flex: 1 1 calc(33.333% - 6px); min-width: 0; margin-bottom: 0 !important; }
+  .stats-card > div > div:first-child { font-size: 9px !important; margin-bottom: 1px !important; }
+  .stats-card > div > div:last-child { height: 4px !important; }
 
+  /* Action panel pegado al borde inferior */
   .action-panel {
-    bottom: 8px !important;
-    width: calc(100% - 16px) !important;
-    padding: 8px !important;
-    gap: 6px !important;
+    bottom: 4px !important;
+    width: calc(100% - 8px) !important;
+    padding: 6px !important;
+    gap: 5px !important;
+    box-shadow: 2px 3px 0 #1A1310 !important;
   }
+  .action-panel::before { display: none !important; }
   .action-panel .tab { padding: 4px 8px !important; font-size: 11px !important; }
-  .action-row { gap: 4px !important; }
-  .action-btn { padding: 5px 2px !important; min-width: 0 !important; flex: 1 1 0 !important; }
+  .action-row { gap: 3px !important; }
+  .action-btn { padding: 4px 2px !important; min-width: 0 !important; flex: 1 1 0 !important; }
   .action-btn > span:first-child { font-size: 16px !important; }
   .action-btn > span:nth-child(2) { font-size: 9px !important; }
   .action-btn > span:nth-child(3) { font-size: 8px !important; }
-
-  /* Header de monedas: prevenir que el del título se rompa por el peso */
-  .diary-header .paper-card:first-child > div:nth-child(3) { font-size: 10px !important; }
 }
 
 /* Scrollbar tweak */
