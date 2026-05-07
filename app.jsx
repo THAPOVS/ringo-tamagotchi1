@@ -146,7 +146,7 @@ function App() {
       width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative',
     }}>
       {/* Full-bleed scene */}
-      <div style={{ position: 'absolute', inset: 0 }}>
+      <div className="scene-wrap" style={{ position: 'absolute', inset: 0 }}>
         <Scene id={state.scene}/>
       </div>
 
